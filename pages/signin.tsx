@@ -1,28 +1,15 @@
-import {
-  getProviders,
-  signIn,
-  getSession,
-  getCsrfToken,
-} from "next-auth/react";
+import SignIn from "components/pages/auth/signin";
+import { getProviders, getSession } from "next-auth/react";
 
-const SignInPage = ({ providers }) => {
-  console.log(providers);
+const Register = ({ providers }: { providers: any }) => {
   return (
-    <div>
-      {Object.values(providers).map((provider) => {
-        return (
-          <div key={provider.name}>
-            <button onClick={() => signIn(provider.id)}>
-              Sign in with {provider.name}
-            </button>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <SignIn providers={providers} />
+    </>
   );
 };
 
-export default SignInPage;
+export default Register;
 
 export async function getServerSideProps(context: any) {
   const { req } = context;
@@ -37,7 +24,6 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       providers: await getProviders(),
-      csrfToken: await getCsrfToken(context),
     },
   };
 }
