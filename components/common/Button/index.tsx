@@ -32,7 +32,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       className,
       children,
-      iconName,
       variant = "default",
       size = "base",
       dropdown = false,
@@ -58,7 +57,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className={className}
           size={size}
           hasText={!!children}
-          hasIcon={!!iconName}
           hasDropdown={dropdown}
           {...otherProps}
         >
@@ -76,7 +74,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={className}
         size={size}
         hasText={!!children}
-        hasIcon={!!iconName}
         hasDropdown={dropdown}
         {...otherProps}
       >
