@@ -1,12 +1,8 @@
-import Header from "components/ui/Header";
+import LandingPage from "components/pages/landing";
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return (
-    <div>
-      <Header />
-    </div>
-  );
+  return <LandingPage />;
 };
 
 export default Home;
