@@ -6,7 +6,6 @@ const { colors } = theme;
 interface ButtonDisplayProps {
   size: "sm" | "base";
   hasText: boolean;
-  hasIcon: boolean;
   hasDropdown: boolean;
 }
 
@@ -31,9 +30,6 @@ const BaseButton = styled.button<ButtonDisplayProps>`
     let fontSize = "16px";
     let spacing = "8px";
     let outlineWidth = "4px";
-    if (props.hasIcon) {
-      paddingLeft = "16px";
-    }
     if (props.hasDropdown) {
       paddingRight = "16px";
     }
@@ -44,9 +40,6 @@ const BaseButton = styled.button<ButtonDisplayProps>`
       borderRadius = "4px";
       fontSize = "14px";
       outlineWidth = "2px";
-      if (props.hasIcon) {
-        paddingLeft = "8px";
-      }
       if (props.hasDropdown) {
         paddingRight = "8px";
       }

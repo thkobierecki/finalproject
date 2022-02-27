@@ -15,7 +15,9 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_SECRET,
     }),
     GoogleProvider({
+      //@ts-ignore
       clientId: process.env.GOOGLE_ID,
+      //@ts-ignore
       clientSecret: process.env.GOOGLE_SECRET,
     }),
     CredentialsProvider({
@@ -66,11 +68,14 @@ export default NextAuth({
 
     session: async ({ session, token, user }) => {
       if (token.user) {
+        //@ts-ignore
         session.user = token.user;
       }
       if (session.user?.email == "th.kobierecki@gmail.com") {
+        //@ts-ignore
         session.user.isAdmin = true;
       } else {
+        //@ts-ignore
         session.user.isAdmin = false;
       }
       return session;
