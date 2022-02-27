@@ -5,15 +5,15 @@ const Label = styled.label`
   margin-bottom: 4px;
   font-size: ${theme.sizes.md};
 `;
-const StyledInput = styled.input<any>`
+const StyledInput = styled.textarea<any>`
   width: 100%;
   border: ${({ error }) =>
     error
       ? `1px solid ${theme.colors.secondary.red.base}`
       : `1px solid ${theme.colors.neutral.grey.base}`};
-  padding: 4px 8px;
+  padding: 2px 4px;
   margin-bottom: 5px;
-  height: 40px;
+  height: 100px;
   border-radius: ${theme.radius.base};
 `;
 const ErrorWrapper = styled.div`
