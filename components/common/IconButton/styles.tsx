@@ -4,8 +4,8 @@ import theme from "theme";
 const Container = styled.button<any>`
   border-radius: 10px;
   cursor: pointer;
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   font-size: 12px;
   line-height: 20px;
   padding: 8px 20px;
@@ -29,8 +29,8 @@ const Container = styled.button<any>`
     }
   }
   .iconButton {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     fill: ${({ isActive }) =>
       isActive ? theme.colors.brand.blue.base : theme.colors.neutral.grey.dark};
     stroke: ${({ isActive }) =>

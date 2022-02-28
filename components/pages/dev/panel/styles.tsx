@@ -37,4 +37,17 @@ const ButtonsWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
-export { Container, FormWrapper, Column, PreferencesWrapper, ButtonsWrapper };
+
+const InputsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+`;
+export {
+  Container,
+  FormWrapper,
+  Column,
+  InputsWrapper,
+  PreferencesWrapper,
+  ButtonsWrapper,
+};
