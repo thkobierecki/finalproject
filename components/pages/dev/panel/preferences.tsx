@@ -5,7 +5,6 @@ import IconButton, { IconPropType } from "components/common/IconButton";
 import Input from "components/common/Input";
 import Text from "components/common/Text";
 import PanelTemplate from "components/templates/panel";
-import { ChangeEvent, useState } from "react";
 import Select from "react-select";
 import {
   Container,
@@ -35,11 +34,13 @@ const Preferences = () => {
     isSingleActive,
     isPresentInArray,
     handleChangeInput,
+    handleUpdatePreferences,
+    handleChangeTechSkills,
   } = usePrefferences();
   return (
     <PanelTemplate>
       <PreferencesWrapper>
-        <Container>
+        <Container style={{ marginBottom: 20 }}>
           <Text variant="headingLarge">Preferences</Text>
         </Container>
         <Card>
@@ -175,22 +176,24 @@ const Preferences = () => {
               label="What is your minimum expectation?"
               name="minSalary"
               type="number"
-              //@ts-ignore
               onChange={(e) =>
-                handleChangeInput(e.target.name as KeyType, e.target.value)
+                handleChangeInput(
+                  e.target.name as KeyType,
+                  Number(e.target.value)
+                )
               }
-              //@ts-ignore
               value={state.minSalary}
             />
             <Input
               label="What is your maximum expectation?"
               name="maxSalary"
               type="number"
-              //@ts-ignore
               onChange={(e) =>
-                handleChangeInput(e.target.name as KeyType, e.target.value)
+                handleChangeInput(
+                  e.target.name as KeyType,
+                  Number(e.target.value)
+                )
               }
-              //@ts-ignore
               value={state.maxSalary}
             />
           </InputsWrapper>
@@ -220,10 +223,13 @@ const Preferences = () => {
             <Select
               isMulti
               options={techSkills}
-              onChange={(value) => console.log(value)}
+              onChange={(value) => handleChangeTechSkills(value)}
             />
           </InputsWrapper>
         </Card>
+        <Button variant="primary" onClick={() => handleUpdatePreferences()}>
+          Update your preferences
+        </Button>
       </PreferencesWrapper>
     </PanelTemplate>
   );

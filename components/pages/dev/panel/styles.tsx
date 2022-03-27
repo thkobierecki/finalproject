@@ -43,6 +43,22 @@ const InputsWrapper = styled.div`
   flex-direction: column;
   width: 300px;
 `;
+const RowPreferencesWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0;
+`;
+const HeadingWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .editButton {
+    width: 100px;
+  }
+`;
 export {
   Container,
   FormWrapper,
@@ -50,4 +66,6 @@ export {
   InputsWrapper,
   PreferencesWrapper,
   ButtonsWrapper,
+  RowPreferencesWrapper,
+  HeadingWrapper,
 };

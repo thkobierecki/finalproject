@@ -53,7 +53,11 @@ const SignInForm = ({ providers }: { providers: any }) => {
           <Button
             variant="default"
             style={{ marginRight: "8px" }}
-            onClick={() => signIn(providers.google.id)}
+            onClick={() =>
+              signIn(providers.google.id, {
+                callbackUrl: `${window.location.origin}/dev/panel/profile`,
+              })
+            }
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <Image width={24} height={24} src="/images/gmail.svg" />
@@ -62,7 +66,14 @@ const SignInForm = ({ providers }: { providers: any }) => {
               </Text>
             </div>
           </Button>
-          <Button variant="default" onClick={() => signIn(providers.github.id)}>
+          <Button
+            variant="default"
+            onClick={() =>
+              signIn(providers.github.id, {
+                callbackUrl: `${window.location.origin}/dev/panel/profile`,
+              })
+            }
+          >
             <div style={{ display: "flex", alignItems: "center" }}>
               <Image width={24} height={24} src="/images/github.svg" />
               <Text variant="body" style={{ marginLeft: 4 }}>

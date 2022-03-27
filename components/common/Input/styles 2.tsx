@@ -11,9 +11,9 @@ const StyledInput = styled.input<any>`
     error
       ? `1px solid ${theme.colors.secondary.red.base}`
       : `1px solid ${theme.colors.neutral.grey.base}`};
-  padding: 2px 4px;
+  padding: 4px 8px;
   margin-bottom: 5px;
-  height: 35px;
+  height: 40px;
   border-radius: ${theme.radius.base};
 `;
 const ErrorWrapper = styled.div`

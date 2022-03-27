@@ -38,10 +38,8 @@ export default NextAuth({
           headers: { "Content-Type": "application/json" },
         });
         const user = await res.json();
-        console.log(user);
         // If no error and we have user data, return it
         if (res.ok && user) {
-          console.log(user);
           return user;
         }
         // Return null if user data could not be retrieved
@@ -51,7 +49,7 @@ export default NextAuth({
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 24 * 60 * 60, // 1 day
   },
   jwt: {
     secret: process.env.SECRET,

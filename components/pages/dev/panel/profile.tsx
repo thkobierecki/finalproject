@@ -5,30 +5,20 @@ import Text from "components/common/Text";
 import TextArea from "components/common/TextArea";
 import PanelTemplate from "components/templates/panel";
 import UploadCV from "components/ui/UploadCV";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { Container, FormWrapper, Column } from "./styles";
+import { useUserProfile, KeyType } from "hooks/useUserProfile";
 
 const DevProfilePage = () => {
-  const [state, setState] = useState({
-    firstName: "",
-    lastName: "",
-    email: "th.kobierecki@gmail.com",
-    city: "",
-    introduction: "",
-    linkedin: "",
-    github: "",
-  });
-  const [errors, setError] = useState({
-    firstName: "",
-    lastName: "",
-    city: "",
-    introduction: "",
-    linkedin: "",
-    github: "",
-  });
-  const [preview, setPreview] = useState("");
+  const {
+    state,
+    isLoading,
+    errors,
+    handleChangeSingleValue,
+    handleUpdateProfile,
+  } = useUserProfile();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setState({ ...state, [e.target.name]: e.target.value });
+    handleChangeSingleValue(e.target.name as KeyType, e.target.value);
   return (
     <PanelTemplate>
       <Container>
@@ -48,7 +38,7 @@ const DevProfilePage = () => {
               placeholder="Name"
               required
               onChange={handleChange}
-              error={errors.firstName}
+              error={errors.firstName ? "This field is required" : ""}
             />
             <Input
               label="Surrname"
@@ -58,7 +48,7 @@ const DevProfilePage = () => {
               placeholder="Surrname"
               required
               onChange={handleChange}
-              error={errors.lastName}
+              error={errors.lastName ? "This field is required" : ""}
             />
             <Input
               label="Email"
@@ -77,7 +67,7 @@ const DevProfilePage = () => {
               placeholder="City"
               required
               onChange={handleChange}
-              error={errors.city}
+              error={errors.city ? "This field is required" : ""}
             />
             <TextArea
               label="Introduce yourself"
@@ -86,7 +76,7 @@ const DevProfilePage = () => {
               placeholder="Introduce yourself"
               required
               onChange={handleChange}
-              error={errors.introduction}
+              error={errors.introduction ? "This field is required" : ""}
             />
           </Card>
         </Column>
@@ -100,7 +90,7 @@ const DevProfilePage = () => {
               placeholder="Type your LinkedIn profile URL"
               required
               onChange={handleChange}
-              error={errors.linkedin}
+              error={errors.linkedin ? "This field is required" : ""}
             />
             <Input
               label="Your GitHub"
@@ -110,18 +100,26 @@ const DevProfilePage = () => {
               placeholder="Type your GitHub profile URL"
               required
               onChange={handleChange}
-              error={errors.github}
+              error={errors.github ? "This field is required" : ""}
             />
           </Card>
           <Card title="UPLOAD YOUR CV">
             <UploadCV
-              setPreview={(prev: string) => setPreview(prev)}
-              preview={preview}
+              setPreview={(prev: string) =>
+                handleChangeSingleValue("cvLink", prev)
+              }
+              preview={state.cvLink}
             />
           </Card>
         </Column>
       </FormWrapper>
-      <Button variant="primary">Update Your Profile</Button>
+      <Button
+        variant="primary"
+        loading={isLoading}
+        onClick={() => handleUpdateProfile()}
+      >
+        Update Your Profile
+      </Button>
     </PanelTemplate>
   );
 };

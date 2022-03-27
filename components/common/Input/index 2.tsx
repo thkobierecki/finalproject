@@ -29,7 +29,6 @@ const Input = ({
       {label && <Label htmlFor={name}>{label}</Label>}
       <StyledInput
         name={name}
-        aria-name={name}
         type={type}
         error={error}
         disabled={disabled}

@@ -2,6 +2,8 @@ import "../styles/globals.css";
 import { createGlobalStyle } from "styled-components";
 import { getSession, GetSessionParams, getCsrfToken } from "next-auth/react";
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 const GlobalStyle = createGlobalStyle`
   body{
@@ -19,6 +21,15 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <GlobalStyle />
       <SessionProvider session={session}>
         <Component {...pageProps} />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          draggable={false}
+          closeOnClick
+          pauseOnHover
+        />
       </SessionProvider>
     </>
   );
