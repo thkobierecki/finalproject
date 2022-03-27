@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent } from "react";
 import { Label, StyledInput, ErrorWrapper, InputWrapper } from "./styles";
 
 type InputProps = {
@@ -7,8 +7,7 @@ type InputProps = {
   disabled?: boolean;
   name: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  type: string;
-  value: string | number;
+  value: string;
   placeholder?: string;
   required?: boolean;
 };
@@ -18,7 +17,6 @@ const Input = ({
   error,
   disabled,
   onChange,
-  type,
   value,
   placeholder,
   required,
@@ -29,8 +27,6 @@ const Input = ({
       {label && <Label htmlFor={name}>{label}</Label>}
       <StyledInput
         name={name}
-        aria-name={name}
-        type={type}
         error={error}
         disabled={disabled}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e)}
