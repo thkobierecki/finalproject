@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 
 type UserType = {
   email: string;
+  accountType: string;
 };
 type Response = {
   message: string;
@@ -34,12 +35,10 @@ export default async (
         password: HashedPassword,
         accountType: accountType,
       }).save();
-      res
-        .status(200)
-        .json({
-          message: "Sign Up Sucess",
-          user: { email: newUser.email, accountType: newUser.accountType },
-        });
+      res.status(200).json({
+        message: "Sign Up Sucess",
+        user: { email: newUser.email, accountType: newUser.accountType },
+      });
     }
   } catch (error) {
     console.log("Im error");
