@@ -29,6 +29,7 @@ import { usePrefferences, KeyType } from "hooks/usePrefferences";
 const Preferences = () => {
   const {
     state,
+    isLoading,
     handleChangeSingleValue,
     handleChangeMultiValue,
     isSingleActive,
@@ -227,7 +228,11 @@ const Preferences = () => {
             />
           </InputsWrapper>
         </Card>
-        <Button variant="primary" onClick={() => handleUpdatePreferences()}>
+        <Button
+          variant="primary"
+          onClick={() => handleUpdatePreferences()}
+          loading={isLoading}
+        >
           Update your preferences
         </Button>
       </PreferencesWrapper>

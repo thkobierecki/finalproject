@@ -69,13 +69,6 @@ export default NextAuth({
         //@ts-ignore
         session.user = token.user;
       }
-      if (session.user?.email == "th.kobierecki@gmail.com") {
-        //@ts-ignore
-        session.user.isAdmin = true;
-      } else {
-        //@ts-ignore
-        session.user.isAdmin = false;
-      }
       return session;
     },
   },

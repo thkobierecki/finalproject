@@ -14,7 +14,13 @@ const SignupForm = ({ providers }: { providers: any }) => {
     email: string;
     password: string;
     confirmPassword: string;
-  }>({ email: "", password: "", confirmPassword: "" });
+    accountType: string;
+  }>({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    accountType: "DEVELOPER",
+  });
   const [errors, setError] = useState<{
     email: string;
     password: string;
@@ -23,7 +29,8 @@ const SignupForm = ({ providers }: { providers: any }) => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setState({ ...state, [e.target.name]: e.target.value });
-
+  const handleChangeAccountType = (type: string) =>
+    setState({ ...state, accountType: type });
   const validatePassword = () => {
     const hasLength = state.password.length >= 8;
     if (!hasLength) {
@@ -53,6 +60,7 @@ const SignupForm = ({ providers }: { providers: any }) => {
         const body = JSON.stringify({
           email: state.email,
           password: state.password,
+          accountType: state.accountType,
         });
         const request = await fetch("/api/user/register", {
           headers: {
@@ -100,6 +108,33 @@ const SignupForm = ({ providers }: { providers: any }) => {
         <Divider />
         <Text variant="headingMedium">Get started for free</Text>
         <form onSubmit={handleSubmit}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+              marginBottom: 10,
+              fontSize: 12,
+            }}
+          >
+            <label>
+              <input
+                type="checkbox"
+                onChange={() => handleChangeAccountType("DEVELOPER")}
+                checked={state.accountType === "DEVELOPER"}
+              />
+              Sign up as a developer
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                onChange={() => handleChangeAccountType("COMPANY")}
+                checked={state.accountType === "COMPANY"}
+              />
+              Sign up as a company
+            </label>
+          </div>
+
           <Input
             label="Email"
             type="email"
