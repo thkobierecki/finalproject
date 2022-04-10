@@ -158,6 +158,7 @@ export const usePrefferences = () => {
 
   return {
     state,
+    isLoading,
     handleChangeSingleValue,
     handleChangeMultiValue,
     isSingleActive,

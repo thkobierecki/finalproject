@@ -37,7 +37,11 @@ const SignInForm = ({ providers }: { providers: any }) => {
     const hasInvalidPassword = validatePassword();
     if (!hasInvalidPassword) {
       try {
-        signIn("credentials", { email: state.email, password: state.password });
+        signIn("credentials", {
+          email: state.email,
+          password: state.password,
+          callbackUrl: `${window.location.origin}/dev/panel/profile`,
+        });
         setLoading(false);
       } catch (e) {
         setLoading(false);

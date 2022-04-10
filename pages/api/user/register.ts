@@ -20,8 +20,8 @@ export default async (
 ) => {
   try {
     if (req.method === "POST") {
-      const { email, password } = req.body;
-      console.log("email:", email);
+      const { email, password, accountType } = req.body;
+      console.log("accountType:", accountType);
       const user = await User.findOne({ email: email });
 
       if (user) {
@@ -32,10 +32,14 @@ export default async (
       const newUser = await new User({
         email: email,
         password: HashedPassword,
+        accountType: accountType,
       }).save();
       res
         .status(200)
-        .json({ message: "Sign Up Sucess", user: { email: newUser.email } });
+        .json({
+          message: "Sign Up Sucess",
+          user: { email: newUser.email, accountType: newUser.accountType },
+        });
     }
   } catch (error) {
     console.log("Im error");

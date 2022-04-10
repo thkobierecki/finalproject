@@ -16,6 +16,12 @@ export async function getServerSideProps(context: any) {
       redirect: { destination: "/signin" },
     };
   }
+  //@ts-ignore
+  if (session?.user?.accountType === "COMPANY") {
+    return {
+      redirect: { destination: "/company/panel/profile" },
+    };
+  }
 
   return {
     props: {},

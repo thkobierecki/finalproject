@@ -9,6 +9,7 @@ type Response = {
   email: string;
   id: string;
   token: string;
+  accountType: string;
 };
 type ErrorType = { error: string };
 
@@ -37,12 +38,13 @@ export default async (
           expiresIn: "7d",
         });
 
-        const { email, _id } = user;
+        const { email, accountType, _id } = user;
 
         res.status(201).json({
           token,
           email,
           id: _id,
+          accountType,
           message: "login successful",
         });
       }
