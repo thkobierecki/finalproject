@@ -6,50 +6,29 @@ import Text from "components/common/Text";
 import Divider from "./Divider";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
 
 const SignInForm = ({ providers }: { providers: any }) => {
-  const [state, setState] = useState<{
-    email: string;
-    password: string;
-  }>({ email: "", password: "" });
-  const [errors, setError] = useState<{
-    email: string;
-    password: string;
-  }>({ email: "", password: "" });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setState({ ...state, [e.target.name]: e.target.value });
-
-  const validatePassword = () => {
-    const hasLength = state.password.length >= 8;
-    if (!hasLength) {
-      setError({
-        ...errors,
-        password: "Your Password must be at least 8 characters.",
-      });
-      return true;
-    }
-    return false;
-  };
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: any) => {
     setLoading(true);
-    const hasInvalidPassword = validatePassword();
-    if (!hasInvalidPassword) {
-      try {
-        signIn("credentials", {
-          email: state.email,
-          password: state.password,
-          callbackUrl: `${window.location.origin}/dev/panel/profile`,
-        });
-        setLoading(false);
-      } catch (e) {
-        setLoading(false);
-      }
+    try {
+      signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: `${window.location.origin}/dev/panel/profile`,
+      });
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
     }
-    setLoading(false);
-    return;
   };
+  console.log(errors);
   return (
     <FormContainer>
       <FormWrapper>
@@ -89,30 +68,29 @@ const SignInForm = ({ providers }: { providers: any }) => {
         </SocialWrapper>
         <Divider />
         <Text variant="headingMedium">Sign In</Text>
-        <form onSubmit={handleSubmit}>
+        <form id="signInForm" onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="Email"
             type="email"
             name="email"
-            value={state.email}
+            register={register}
             placeholder="Email"
-            required
-            onChange={handleChange}
-            error={errors.email}
+            required="This field is required"
+            error={errors?.email?.message}
           />
           <Input
             label="Password"
             type="password"
             name="password"
-            value={state.password}
-            required
-            onChange={handleChange}
-            error={errors.password}
+            required="This field is required"
+            register={register}
+            error={errors?.password?.message}
           />
           <Button
             loading={isLoading}
             variant="primary"
             type="submit"
+            form="signInForm"
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
             Sign In

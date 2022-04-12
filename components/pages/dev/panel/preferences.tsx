@@ -2,7 +2,7 @@ import Button from "components/common/Button";
 import Card from "components/common/Card";
 import Chip from "components/common/Chip";
 import IconButton, { IconPropType } from "components/common/IconButton";
-import Input from "components/common/Input";
+import { UnregisterInput as Input } from "components/common/Input";
 import Text from "components/common/Text";
 import PanelTemplate from "components/templates/panel";
 import Select from "react-select";

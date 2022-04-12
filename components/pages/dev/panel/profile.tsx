@@ -4,21 +4,51 @@ import Input from "components/common/Input";
 import Text from "components/common/Text";
 import TextArea from "components/common/TextArea";
 import PanelTemplate from "components/templates/panel";
-import UploadCV from "components/ui/UploadCV";
-import { ChangeEvent } from "react";
+// import UploadCV from "components/ui/UploadCV";
+import { useEffect, useMemo, useState } from "react";
 import { Container, FormWrapper, Column } from "./styles";
-import { useUserProfile, KeyType } from "hooks/useUserProfile";
+import { useForm } from "react-hook-form";
+import useSWR from "swr";
+import { toast } from "react-toastify";
+//@ts-ignore
+const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
 
 const DevProfilePage = () => {
+  const { data } = useSWR(`/api/user/profile`, fetcher);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
-    state,
-    isLoading,
-    errors,
-    handleChangeSingleValue,
-    handleUpdateProfile,
-  } = useUserProfile();
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    handleChangeSingleValue(e.target.name as KeyType, e.target.value);
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: useMemo(() => {
+      return data;
+    }, [data]),
+  });
+
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+    try {
+      const req = await fetch("/api/user/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      toast.success("🦄 Your profile has been updated");
+      setIsLoading(false);
+    } catch (e) {
+      toast.warning("There was an error trying to update your profile");
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    reset(data);
+  }, [data]);
+
   return (
     <PanelTemplate>
       <Container>
@@ -27,56 +57,51 @@ const DevProfilePage = () => {
           Complete your profile & apply with just one click!
         </Text>
       </Container>
-      <FormWrapper>
+      <FormWrapper id="profile" onSubmit={handleSubmit(onSubmit)}>
         <Column>
           <Card title="USER DETAILS">
             <Input
               label="Name"
               type="text"
               name="firstName"
-              value={state.firstName}
               placeholder="Name"
-              required
-              onChange={handleChange}
-              error={errors.firstName ? "This field is required" : ""}
+              register={register}
+              required="This field is required"
+              error={errors?.firstName?.message}
             />
             <Input
               label="Surrname"
               type="text"
               name="lastName"
-              value={state.lastName}
               placeholder="Surrname"
-              required
-              onChange={handleChange}
-              error={errors.lastName ? "This field is required" : ""}
+              register={register}
+              required="This field is required"
+              error={errors?.lastName?.message}
             />
             <Input
               label="Email"
               type="email"
               name="email"
-              value={state.email}
-              onChange={handleChange}
               placeholder="Email"
               disabled
+              register={register}
             />
             <Input
               label="City"
               type="text"
               name="city"
-              value={state.city}
               placeholder="City"
-              required
-              onChange={handleChange}
-              error={errors.city ? "This field is required" : ""}
+              register={register}
+              required="This field is required"
+              error={errors?.city?.message}
             />
             <TextArea
               label="Introduce yourself"
               name="introduction"
-              value={state.introduction}
+              register={register}
+              required="This field is required"
               placeholder="Introduce yourself"
-              required
-              onChange={handleChange}
-              error={errors.introduction ? "This field is required" : ""}
+              error={errors?.introduction?.message}
             />
           </Card>
         </Column>
@@ -86,37 +111,36 @@ const DevProfilePage = () => {
               label="Your LinkedIn"
               type="text"
               name="linkedin"
-              value={state.linkedin}
+              register={register}
+              required="This field is required"
               placeholder="Type your LinkedIn profile URL"
-              required
-              onChange={handleChange}
-              error={errors.linkedin ? "This field is required" : ""}
+              error={errors?.linkedin?.message}
             />
             <Input
               label="Your GitHub"
               type="text"
               name="github"
-              value={state.github}
+              register={register}
+              required="This field is required"
               placeholder="Type your GitHub profile URL"
-              required
-              onChange={handleChange}
-              error={errors.github ? "This field is required" : ""}
+              error={errors?.github?.message}
             />
           </Card>
-          <Card title="UPLOAD YOUR CV">
+          {/* <Card title="UPLOAD YOUR CV">
             <UploadCV
               setPreview={(prev: string) =>
                 handleChangeSingleValue("cvLink", prev)
               }
               preview={state.cvLink}
             />
-          </Card>
+          </Card> */}
         </Column>
       </FormWrapper>
       <Button
         variant="primary"
         loading={isLoading}
-        onClick={() => handleUpdateProfile()}
+        type="submit"
+        form="profile"
       >
         Update Your Profile
       </Button>
