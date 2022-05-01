@@ -1,8 +1,9 @@
+import CompanyProfilePage from "components/pages/company/panel/profile";
 import type { NextPage } from "next";
 import { getSession } from "next-auth/react";
 
 const Profile: NextPage = () => {
-  return <p>hello</p>;
+  return <CompanyProfilePage />;
 };
 
 export default Profile;

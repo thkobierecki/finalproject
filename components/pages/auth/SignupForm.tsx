@@ -7,77 +7,42 @@ import Text from "components/common/Text";
 import Divider from "./Divider";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
 
 const SignupForm = ({ providers }: { providers: any }) => {
   const router = useRouter();
-  const [state, setState] = useState<{
-    email: string;
-    password: string;
-    confirmPassword: string;
-    accountType: string;
-  }>({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    accountType: "DEVELOPER",
-  });
-  const [errors, setError] = useState<{
-    email: string;
-    password: string;
-    confirmPassword: string;
-  }>({ email: "", password: "", confirmPassword: "" });
+  const [accountType, setAccountType] = useState<"DEVELOPER" | "COMPANY">(
+    "DEVELOPER"
+  );
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setState({ ...state, [e.target.name]: e.target.value });
-  const handleChangeAccountType = (type: string) =>
-    setState({ ...state, accountType: type });
-  const validatePassword = () => {
-    const hasLength = state.password.length >= 8;
-    if (!hasLength) {
-      setError({
-        ...errors,
-        password: "Your Password must be at least 8 characters.",
-      });
-      return true;
-    }
-    return false;
-  };
-  const validateConfirmationPassword = () => {
-    const areTheSame = state.password === state.confirmPassword;
-    if (!areTheSame) {
-      setError({ ...errors, confirmPassword: "Passwords must match." });
-      return true;
-    }
-    return false;
-  };
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  console.log(errors);
+  const onSubmit = async (data: any) => {
     setLoading(true);
-    const hasInvalidPassword = validatePassword();
-    const hasInvalidConfirmation = validateConfirmationPassword();
-    if (!hasInvalidPassword && !hasInvalidConfirmation) {
-      try {
-        const body = JSON.stringify({
-          email: state.email,
-          password: state.password,
-          accountType: state.accountType,
-        });
-        const request = await fetch("/api/user/register", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-          body,
-        });
-        console.log(request);
-        setLoading(false);
-        router.push("/");
-      } catch (e) {
-        setLoading(false);
-      }
+    try {
+      const body = JSON.stringify({
+        email: data.email,
+        password: data.password,
+        accountType: accountType,
+      });
+      const request = await fetch("/api/user/register", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body,
+      });
+      console.log(request);
+      setLoading(false);
+      router.push("/");
+    } catch (e) {
+      setLoading(false);
     }
-    setLoading(false);
-    return;
   };
   return (
     <FormContainer>
@@ -107,7 +72,7 @@ const SignupForm = ({ providers }: { providers: any }) => {
         </SocialWrapper>
         <Divider />
         <Text variant="headingMedium">Get started for free</Text>
-        <form onSubmit={handleSubmit}>
+        <form id="registerForm" onSubmit={handleSubmit(onSubmit)}>
           <div
             style={{
               display: "flex",
@@ -120,16 +85,16 @@ const SignupForm = ({ providers }: { providers: any }) => {
             <label>
               <input
                 type="checkbox"
-                onChange={() => handleChangeAccountType("DEVELOPER")}
-                checked={state.accountType === "DEVELOPER"}
+                onChange={() => setAccountType("DEVELOPER")}
+                checked={accountType === "DEVELOPER"}
               />
               Sign up as a developer
             </label>
             <label>
               <input
                 type="checkbox"
-                onChange={() => handleChangeAccountType("COMPANY")}
-                checked={state.accountType === "COMPANY"}
+                onChange={() => setAccountType("COMPANY")}
+                checked={accountType === "COMPANY"}
               />
               Sign up as a company
             </label>
@@ -139,34 +104,35 @@ const SignupForm = ({ providers }: { providers: any }) => {
             label="Email"
             type="email"
             name="email"
-            value={state.email}
+            register={register}
             placeholder="Email"
-            required
-            onChange={handleChange}
-            error={errors.email}
+            required="This field is required"
+            error={errors?.email?.message}
           />
           <Input
             label="Password"
             type="password"
             name="password"
-            value={state.password}
-            required
-            onChange={handleChange}
-            error={errors.password}
+            required="This field is required"
+            register={register}
+            error={errors?.password?.message}
           />
           <Input
             label="Confirm Password"
             type="password"
             name="confirmPassword"
-            value={state.confirmPassword}
-            required
-            onChange={handleChange}
-            error={errors.confirmPassword}
+            required={false}
+            register={register}
+            validate={(val: string) =>
+              watch("password") !== val ? "Your passwords must match" : true
+            }
+            error={errors?.confirmPassword?.message}
           />
           <Button
             loading={isLoading}
             variant="primary"
             type="submit"
+            form="registerForm"
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
             Register
