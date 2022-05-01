@@ -135,7 +135,7 @@ const Preferences = () => {
                   handleChangeMultiValue(item.type as KeyType, item.value)
                 }
                 active={isPresentInArray(item.type as KeyType, item.value)}
-                name={item.name}
+                name={item.text}
               />
             ))}
           </ButtonsWrapper>

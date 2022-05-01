@@ -1,4 +1,3 @@
-import register from "pages/api/user/register";
 import { ChangeEvent, FormEvent } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { Label, StyledInput, ErrorWrapper, InputWrapper } from "./styles";
