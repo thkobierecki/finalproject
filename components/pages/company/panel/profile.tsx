@@ -1,17 +1,60 @@
+import useSWR from "swr";
+import { toast } from "react-toastify";
 import Button from "components/common/Button";
 import Card from "components/common/Card";
 import Input from "components/common/Input";
+import Select from "components/common/Select";
 import Text from "components/common/Text";
 import TextArea from "components/common/TextArea";
 import PanelTemplate from "components/templates/panel";
-import UploadCV from "components/ui/UploadCV";
+import {
+  companyStage,
+  companyType,
+  industryType,
+} from "lib/mongo/profileData";
 import { useForm } from "react-hook-form";
 import { Container, FormWrapper, Column } from "./styles";
+import { useEffect, useMemo, useState } from "react";
+
+//@ts-ignore
+const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
 
 const CompanyProfilePage = () => {
-  const { register, handleSubmit, formState } = useForm();
-  console.log(formState);
-  const onSubmit = (data: any) => console.log(data);
+  const { data } = useSWR(`/api/company/profile`, fetcher);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: useMemo(() => {
+      return data;
+    }, [data]),
+  });
+
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+    try {
+      const req = await fetch("/api/company/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      toast.success("🦄 Your company profile has been updated");
+      setIsLoading(false);
+    } catch (e) {
+      toast.warning("There was an error trying to update your company profile");
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if(data?.error) return;
+    reset(data);
+  }, [data]);
   return (
     <PanelTemplate>
       <Container>
@@ -24,93 +67,95 @@ const CompanyProfilePage = () => {
         <Column>
           <Card title="COMPANY DETAILS">
             <Input
-              label="Name"
-              name="firstName"
+              label="Company name"
+              name="companyName"
               register={register}
               type="text"
-              placeholder="Name"
-              required
-              //   error={errors.firstName ? "This field is required" : ""}
+              placeholder="Company name"
+              required="This field is required"
+              error={errors?.companyName?.message}
             />
-            {/*<Input
-              label="Surrname"
-              type="text"
-              name="lastName"
-              value={state.lastName}
-              placeholder="Surrname"
-              required
-              onChange={handleChange}
-              error={errors.lastName ? "This field is required" : ""}
-            />
-            <Input
-              label="Email"
-              type="email"
-              name="email"
-              value={state.email}
-              onChange={handleChange}
-              placeholder="Email"
-              disabled
-            />
-            <Input
-              label="City"
-              type="text"
-              name="city"
-              value={state.city}
-              placeholder="City"
-              required
-              onChange={handleChange}
-              error={errors.city ? "This field is required" : ""}
-            />
-            <TextArea
-              label="Introduce yourself"
+           <TextArea
+              label="Introduce your company"
               name="introduction"
-              value={state.introduction}
-              placeholder="Introduce yourself"
-              required
-              onChange={handleChange}
-              error={errors.introduction ? "This field is required" : ""}
-            /> */}
+              register={register}
+              required="This field is required"
+              placeholder="Introduce your company"
+              error={errors?.introduction?.message}
+            />
+            <Input
+              label="Company location"
+              name="companyLocation"
+              register={register}
+              type="text"
+              placeholder="Company HQ location"
+              required="This field is required"
+              error={errors?.companyLocation?.message}
+            />
+            <Select
+              label="Company stage"
+              name="companyStage"
+              register={register}
+              placeholder="Company Stage"
+              required="This field is required"
+              options={companyStage}
+              error={errors?.companyStage?.message}
+            />
+            <Select
+              label="Company Type"
+              name="companyType"
+              register={register}
+              placeholder="Company Type"
+              required="This field is required"
+              options={companyType}
+              error={errors?.companyType?.message}
+            />
+            <Select
+              label="Company industry ty[e"
+              name="industryType"
+              register={register}
+              placeholder="Company industry type"
+              required="This field is required"
+              options={industryType}
+              error={errors?.industryType?.message}
+            />
           </Card>
         </Column>
         <Column>
           <Card title="SOCIALS LINKS">
-            {/* <Input
-              label="Your LinkedIn"
+            <Input
+              label="Company website"
               type="text"
-              name="linkedin"
-              value={state.linkedin}
-              placeholder="Type your LinkedIn profile URL"
-              required
-              onChange={handleChange}
-              error={errors.linkedin ? "This field is required" : ""}
+              name="socials.website"
+              register={register}
+              required="This field is required"
+              placeholder="Type your company website profile URL"
+              error={errors?.socials?.linkedin?.message}
             />
             <Input
-              label="Your GitHub"
+              label="Company LinkedIn"
               type="text"
-              name="github"
-              value={state.github}
-              placeholder="Type your GitHub profile URL"
-              required
-              onChange={handleChange}
-              error={errors.github ? "This field is required" : ""}
-            /> */}
+              name="socials.linkedin"
+              register={register}
+              placeholder="Type your copmany LinkedIn profile URL"
+              error={errors?.socials?.linkedin?.message}
+            />
+            <Input
+              label="Company Twitter"
+              type="text"
+              name="socials.twitter"
+              register={register}
+              placeholder="Type your company Twitter profile URL"
+              error={errors?.socials?.twitter?.message}
+            />
           </Card>
-          <Card title="UPLOAD YOUR LOGO">
-            {/* <UploadCV
-              setPreview={(prev: string) =>
-                handleChangeSingleValue("cvLink", prev)
-              }
-              preview={state.cvLink}
-            /> */}
-          </Card>
-        </Column>
+          </Column>
       </FormWrapper>
       <Button
         variant="primary"
+        loading={isLoading}
         type="submit"
         form="companyProfile"
-        // loading={isLoading}
-        // onClick={() => handleUpdateProfile()}
       >
         Update Company Profile
       </Button>
