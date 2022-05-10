@@ -11,6 +11,7 @@ import { Wrapper, Label } from "./styles";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Editor = dynamic(
+  //@ts-ignore
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
@@ -29,6 +30,7 @@ const EditorConvertToHTML = (props: any): JSX.Element => {
     : EditorState.createEmpty();
   const [editorState, setEditorState] = useState<EditorState>(
     props?.defaultValue
+    //@ts-ignore
       ? EditorState.createWithContent(initState)
       : EditorState.createEmpty()
   );
