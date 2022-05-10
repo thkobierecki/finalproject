@@ -3,6 +3,7 @@ import { getSession } from "next-auth/react";
 import JobOffer from "lib/mongo/models/JobOffer";
 import { connectDB } from "lib/mongo/connectDB";
 import { newJobOfferAdapter } from "utils/newJobOfferAdapter";
+import Company from "lib/mongo/models/Company";
 
 connectDB();
 
@@ -48,12 +49,14 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
       seniority,
       techSkills
     });
-
+    const company = await Company.find({userId});
+    
     const jobOffer = await JobOffer.create({
       ...formattedBodyData,
       numberOfApplications: 0,
       applicantsID: [],
-      userId,
+      companyId: userId,
+      company: company[0]["_id"]
     });
     res.status(200).json({
       message: `Succesully created job offer`,

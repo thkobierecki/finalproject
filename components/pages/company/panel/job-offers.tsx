@@ -3,12 +3,15 @@ import PanelTemplate from "components/templates/panel";
 import Button from "components/common/Button";
 import Text from "components/common/Text";
 import { HeadingWrapper } from "./styles";
+import useSWR from "swr";
 
 
 //@ts-ignore
 const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
 
 const CompanyProfilePage = () => {
+  const { data } = useSWR(`/api/company/posts`, fetcher);
+  console.log(data)
 
   return (
     <PanelTemplate>
