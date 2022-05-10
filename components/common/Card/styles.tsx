@@ -11,9 +11,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin-bottom: 30px;
 `;
-const Content = styled.div`
+const Content = styled.div<{direction?:'row'|'column'}>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({direction}) =>direction ? direction : 'column'};
 `;
 
 export { Wrapper, Content };

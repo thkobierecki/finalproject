@@ -59,7 +59,15 @@ const HeadingWrapper = styled.div`
     width: 100px;
   }
 `;
+
+const CardWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
 export {
+  CardWrapper,
   Container,
   FormWrapper,
   Column,
