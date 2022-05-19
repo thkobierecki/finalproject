@@ -32,7 +32,7 @@ export default NextAuth({
       },
 
       async authorize(credentials, req) {
-        const res = await fetch("http://localhost:3000/api/user/login", {
+        const res = await fetch(`${process.env.APP_URL}/api/user/login`, {
           method: "POST",
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" },

@@ -21,7 +21,6 @@ const SignupForm = ({ providers }: { providers: any }) => {
     formState: { errors },
   } = useForm();
   const [isLoading, setLoading] = useState<boolean>(false);
-  console.log(errors);
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
