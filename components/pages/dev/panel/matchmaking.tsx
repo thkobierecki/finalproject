@@ -1,12 +1,27 @@
 import Button from "components/common/Button";
+import Loader from "components/common/Loader";
 import PreferenceCard from "components/common/PreferenceCard";
 import Text from "components/common/Text";
 import PanelTemplate from "components/templates/panel";
 import OfferCard from "components/ui/OfferCard";
 import Link from "next/link";
+import useSWR from "swr";
+import { JobOffer } from "types";
+import { jobOfferAdapter } from "utils/jobOfferAdapter";
 import { Container, RowPreferencesWrapper, HeadingWrapper } from "./styles";
 
+type JobOffersData = {
+  jobOffers: JobOffer[];
+}
+
+//@ts-ignore
+const fetcher = (...args: any) => fetch(...args)
+  .then((res) => res.json())
+  .then((data: JobOffersData)=>data.jobOffers)
+  .then((jobOffers) => jobOffers?.map(jobOffer => jobOfferAdapter(jobOffer)));
+
 const MatchMakingPage = () => {
+  const { data, error } = useSWR(`/api/job-offers`, fetcher);
   return (
     <PanelTemplate>
       <Container>
@@ -29,12 +44,10 @@ const MatchMakingPage = () => {
         <Text variant="headingLarge">Your Matches</Text>
       </Container>
       <Container>
-        <OfferCard />
-        <OfferCard />
-        <OfferCard />
-        <OfferCard />
-        <OfferCard />
-        <OfferCard />
+        {error && <Text variant="headingLarge">There was an error loading your matches. Try to reload the page!</Text>}
+        {!data && <Loader height={60} width={60}/>}
+        {data && data?.length < 1 ? <Text variant="headingLarge">We haven't found any matches for you yet. Try to update tour preferences.</Text> :
+        data?.map(jobOffer => <OfferCard jobOffer={jobOffer} key={`match-making-offer-${jobOffer._id}`} userType={'DEVELOPER'}/>)}
       </Container>
     </PanelTemplate>
   );

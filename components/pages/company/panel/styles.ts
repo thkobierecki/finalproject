@@ -59,7 +59,23 @@ const HeadingWrapper = styled.div`
     width: 100px;
   }
 `;
+
+const CardWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
+const EmptyStateWrapper = styled.div`
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
+
 export {
+  CardWrapper,
   Container,
   FormWrapper,
   Column,
@@ -68,4 +84,5 @@ export {
   ButtonsWrapper,
   RowPreferencesWrapper,
   HeadingWrapper,
+  EmptyStateWrapper
 };

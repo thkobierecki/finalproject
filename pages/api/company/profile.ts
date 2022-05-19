@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import Company from "lib/mongo/models/Company";
 import { connectDB } from "lib/mongo/connectDB";
+import { companyProfileAdapter } from "utils/newJobOfferAdapter";
 
 connectDB();
 
@@ -35,6 +36,16 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
           introduction,
           socials,
         } = req.body;
+
+        const formattedData = companyProfileAdapter({
+          companyName,
+          companyStage,
+          companyType,
+          companyLocation,
+          industryType,
+          introduction,
+          socials,
+        });
         //@ts-ignore
         const hasProfile = await Company.findOne({
           userId,
@@ -43,13 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
           const updatedProfile = await Company.findOneAndUpdate(
             { userId },
             {
-              companyName,
-              companyStage,
-              companyType,
-              companyLocation,
-              industryType,
-              introduction,
-              socials,
+              ...formattedData
             }
           );
           res.status(201).json({
@@ -58,13 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
           });
         } else {
           const createdProfile = await Company.create({
-            companyName,
-            companyStage,
-            companyType,
-            companyLocation,
-            industryType,
-            introduction,
-            socials,
+            ...formattedData,
             email: session.user?.email,
             userId,
           });

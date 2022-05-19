@@ -7,13 +7,13 @@ type Props = {
 };
 const Card = ({ title, children }: Props) => {
   return (
-    <Wrapper>
+    <Wrapper >
       {title && (
         <Text variant="subheadingSmall" style={{ marginBottom: "10px" }}>
           {title}
         </Text>
       )}
-      <Content>{children}</Content>
+      <Content >{children}</Content>
     </Wrapper>
   );
 };

@@ -34,6 +34,11 @@ const sideNavMap = {
       icon: <IoPersonOutline />,
       title: "My Profile",
     },
+    {
+      url: "/company/panel/job-offers",
+      icon: <IoDocumentTextOutline />,
+      title: "Job Offers",
+    },
   ],
 };
 

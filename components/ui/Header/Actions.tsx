@@ -1,16 +1,30 @@
 import Button from "components/common/Button";
 import { useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 import router from "next/router";
 import { ActionsWrapper } from "./styles";
 
 const Actions = () => {
   const { data } = useSession();
+  const userType =
+  //@ts-ignore
+  data && data.user && data.user.accountType
   return (
     <ActionsWrapper>
       {data ? (
-        <Button variant="primary" onClick={() => signOut()}>
-          Log Out
-        </Button>
+        <>
+          {userType === "COMPANY" &&
+          <Link href={'/company/panel/job-offers'}>
+            <Button variant="link" style={{marginRight: 20}}>
+              Post a job offer
+            </Button>
+          </Link>
+            
+          }
+          <Button variant="primary" onClick={() => signOut()}>
+            Log Out
+          </Button>
+        </>
       ) : (
         <>
           <Button
