@@ -9,13 +9,14 @@ connectDB();
 
 export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
   const session = await getSession({ req });
-
+  const {
+    query: { id },
+  } = req;
   if (session) {
     //@ts-ignore
-    const jobOffers = await JobOffer.find({companyId: session.user.id}).sort({ createdAt: -1 }).populate("company");
-
+    const jobOffer = await JobOffer.findOne({ _id: id}).sort({ createdAt: -1 }).populate("company");
     res.status(200).json({
-      jobOffers: jobOffers,
+      jobOffer
     });
   } else {
     // Not Signed in

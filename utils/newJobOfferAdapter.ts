@@ -2,7 +2,7 @@ type Data = {
   description:string;
   employmentType:string;
   isRemote:string;
-  jobTile:string;
+  jobTitle:string;
   location:string;
   mainTech:string;
   maxSalary:string;
@@ -16,7 +16,7 @@ export const newJobOfferAdapter = (data: Data) => {
     description: data.description,
     employmentType: parseFloat(data.employmentType),
     isRemote: parseFloat(data.isRemote),
-    jobTile: data.jobTile,
+    jobTitle: data.jobTitle,
     location: parseFloat(data.location),
     mainTech: parseFloat(data.mainTech),
     maxSalary: parseFloat(data.maxSalary),
@@ -24,5 +24,19 @@ export const newJobOfferAdapter = (data: Data) => {
     seniority: parseFloat(data.seniority),
     techSkills: data.techSkills.map(skill => skill.value) || []
   }
+  return formattedData;
+};
+
+export const companyProfileAdapter = (data: any) => {
+  const formattedData = {
+    companyName: data.companyName,
+    companyStage: parseFloat(data.companyStage),
+    companyType: parseFloat(data.companyType),
+    companyLocation: data.companyLocation,
+    industryType: parseFloat(data.industryType),
+    introduction: data.introduction,
+    socials: data.socials,
+  }
+
   return formattedData;
 };

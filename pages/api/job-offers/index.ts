@@ -12,10 +12,10 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
   if (session) {
     //@ts-ignore
-    const jobOffers = await JobOffer.find({companyId: session.user.id}).sort({ createdAt: -1 }).populate("company");
+    const jobOffers = await JobOffer.find().sort({ createdAt: -1 }).populate("company");
 
     res.status(200).json({
-      jobOffers: jobOffers,
+      jobOffers
     });
   } else {
     // Not Signed in

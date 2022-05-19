@@ -3,7 +3,6 @@ import { getSession } from "next-auth/react";
 import JobOffer from "lib/mongo/models/JobOffer";
 import { connectDB } from "lib/mongo/connectDB";
 import { newJobOfferAdapter } from "utils/newJobOfferAdapter";
-import Company from "lib/mongo/models/Company";
 
 connectDB();
 
@@ -22,10 +21,12 @@ type Body = {
 
 export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
   const session = await getSession({ req });
-
+  const {
+    query: { id },
+  } = req;
   if (session) {
     //@ts-ignore
-    const userId = session.user.id;
+    
     const {
       description,
       employmentType,
@@ -50,18 +51,16 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
       seniority,
       techSkills
     });
-    const company = await Company.find({userId});
     
-    const jobOffer = await JobOffer.create({
-      ...formattedBodyData,
-      numberOfApplications: 0,
-      applicantsID: [],
-      companyId: userId,
-      company: company[0]["_id"]
-    });
+    const jobOffer = await JobOffer.findOneAndUpdate(
+      {_id: id},
+      {
+        ...formattedBodyData
+      }
+    );
     res.status(200).json({
-      message: `Succesully created job offer`,
-      jobOffer: jobOffer,
+      message: `Succesully updated job offer`,
+      jobOffer,
     });
   } else {
     // Not Signed in

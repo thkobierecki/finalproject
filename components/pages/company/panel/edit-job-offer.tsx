@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState,useMemo, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 import { useForm, Controller } from "react-hook-form";
 import MultiSelect from "react-select";
 import Card from "components/common/Card";
@@ -18,21 +19,29 @@ import {
   techSkills
 } from "lib/mongo/profileData";
 import EditorConvertToHTML from "components/common/Editor";
+import useSWR from "swr";
+//@ts-ignore
+const fetcher = (...args: any) => fetch(...args).then((res) =>  res.json());
 
-
-const CompanyProfilePage = () => {
+const EditJobOffer = ({id}: {id: string;}) => {
+  const { data } = useSWR(`/api/company/posts/${id}`, fetcher)
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
+    reset,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: useMemo(() => {
+      return data;
+    }, [data]),
+  });
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     try {
-      const req = await fetch("/api/company/posts/new", {
+      const req = await fetch(`/api/company/posts/edit/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,10 +55,15 @@ const CompanyProfilePage = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if(data?.error) return;
+    reset(data?.jobOffer);
+  }, [data]);
   return (
     <PanelTemplate>
       <HeadingWrapper>
-        <Text variant="headingLarge">Add New Job Offer</Text>
+        <Text variant="headingLarge">Edit Job Offer</Text>
       </HeadingWrapper>
       <FormWrapper id="newJobOfferForm" onSubmit={handleSubmit(onSubmit)}>
         <Column style={{width: '60%'}}>
@@ -160,10 +174,10 @@ const CompanyProfilePage = () => {
         type="submit"
         form="newJobOfferForm"
       >
-        Create a new job offer
+        Update job offer
       </Button>
     </PanelTemplate>
   );
 };
 
-export default CompanyProfilePage;
+export default EditJobOffer;

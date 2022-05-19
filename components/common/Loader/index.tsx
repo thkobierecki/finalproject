@@ -16,7 +16,7 @@ const Loader = (props: LoaderProps) => {
       width={width}
       height={height}
       className={className}
-      viewBox="0 0 38 38"
+      viewBox={`0 0 ${height} ${width}`}
       xmlns="http://www.w3.org/2000/svg"
       aria-label={label}
     >

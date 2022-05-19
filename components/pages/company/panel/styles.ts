@@ -66,6 +66,14 @@ const CardWrapper = styled.div`
   flex-direction: row;
 `;
 
+const EmptyStateWrapper = styled.div`
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
+
 export {
   CardWrapper,
   Container,
@@ -76,4 +84,5 @@ export {
   ButtonsWrapper,
   RowPreferencesWrapper,
   HeadingWrapper,
+  EmptyStateWrapper
 };
