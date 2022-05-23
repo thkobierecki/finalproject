@@ -1,12 +1,13 @@
-import { Container, Wrapper } from "./styles";
+import { Container, Wrapper, Pill, Row } from "./styles";
 import CircleIcon, { IconsType } from "components/common/CircleIcon";
 import Text from "components/common/Text";
 type Props = {
   type: IconsType;
-  value: string;
+  value?: string;
   sub: string;
+  numOfMoreItems?: number;
 };
-const PreferenceCard = ({ type, value, sub }: Props) => {
+const PreferenceCard = ({ type, value, sub, numOfMoreItems }: Props) => {
   return (
     <Container>
       <CircleIcon type={type} />
@@ -14,9 +15,12 @@ const PreferenceCard = ({ type, value, sub }: Props) => {
         <Text variant="headingMedium" className="header">
           {value}
         </Text>
-        <Text variant="bodySmall" className="subheader">
-          {sub}
-        </Text>
+        <Row>
+          <Text variant="bodySmall" className="subheader">
+            {sub}
+          </Text>
+          {numOfMoreItems && numOfMoreItems > 0 && <Pill>+ {numOfMoreItems} </Pill>}
+        </Row>
       </Wrapper>
     </Container>
   );

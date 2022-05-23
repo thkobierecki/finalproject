@@ -6,13 +6,17 @@ import PanelTemplate from "components/templates/panel";
 import OfferCard from "components/ui/OfferCard";
 import Link from "next/link";
 import useSWR from "swr";
-import { JobOffer } from "types";
-import { jobOfferAdapter } from "utils/jobOfferAdapter";
+import { JobOffer, UserPreferencesType } from "types";
+import { jobOfferAdapter, userPreferencesAdapter } from "utils/jobOfferAdapter";
 import { Container, RowPreferencesWrapper, HeadingWrapper } from "./styles";
 
 type JobOffersData = {
   jobOffers: JobOffer[];
 }
+//@ts-ignore
+const userDataFetcher = (...args: any) => fetch(...args)
+  .then((res) => res.json())
+  .then((data: UserPreferencesType) =>userPreferencesAdapter(data));
 
 //@ts-ignore
 const fetcher = (...args: any) => fetch(...args)
@@ -22,6 +26,8 @@ const fetcher = (...args: any) => fetch(...args)
 
 const MatchMakingPage = () => {
   const { data, error } = useSWR(`/api/job-offers`, fetcher);
+  const { data: userData, error: userDataErrors } = useSWR("/api/user/profile/preferences", userDataFetcher);
+  console.log(userData)
   return (
     <PanelTemplate>
       <Container>
@@ -33,11 +39,11 @@ const MatchMakingPage = () => {
         </HeadingWrapper>
 
         <RowPreferencesWrapper>
-          <PreferenceCard type="location" value="London" sub="LOCATION" />
-          <PreferenceCard type="salary" value="36k-50k GBP" sub="SALARY" />
-          <PreferenceCard type="mainTech" value="JavaScript" sub="MAIN TECH" />
-          <PreferenceCard type="techSkills" value="React" sub="SKILLS" />
-          <PreferenceCard type="isRemote" value="Yes" sub="REMOTE" />
+          <PreferenceCard type="location" value={userData?.location[0]?.text} sub="LOCATION" numOfMoreItems={userData?.location.slice(0).length}/>
+          <PreferenceCard type="salary" value={`${userData?.minSalary} - ${userData?.maxSalary} GBP`} sub="SALARY" />
+          <PreferenceCard type="mainTech" value={userData?.mainTech[0]?.text} sub="MAIN TECH" numOfMoreItems={userData?.mainTech.slice(0).length}/>
+          <PreferenceCard type="techSkills" value={userData?.techSkills[0]?.label} sub="SKILLS" numOfMoreItems={userData?.techSkills.slice(0).length}/>
+          <PreferenceCard type="isRemote" value={userData?.isRemote ? 'YES' : 'NO'} sub="REMOTE" />
         </RowPreferencesWrapper>
       </Container>
       <Container>

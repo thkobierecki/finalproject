@@ -32,3 +32,20 @@ export type JobOffer = {
   applicantsID:Array<number>;
   company: Company;
 }
+
+export type UserPreferencesType ={
+  companyStage: number;
+  companyType: number;
+  employmentType: number;
+  industryType: number[];
+  isRemote: number;
+  location: number[];
+  mainTech: number[];
+  maxSalary: number;
+  minSalary: number;
+  searchStatus: number;
+  seniority: number;
+  techSkills: number[];
+  userId: string;
+  _id: string;
+}

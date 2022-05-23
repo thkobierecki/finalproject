@@ -1,4 +1,4 @@
-import { JobOffer } from "types";
+import { JobOffer, UserPreferencesType } from "types";
 import {
   companyStage,
   companyType,
@@ -55,6 +55,33 @@ export const jobOfferAdapter = ( data: JobOffer) => {
       companyType: formattedCompanyType,
       industryType: formattedComanyIndustryType,
     }
+  }
+
+}
+
+export const userPreferencesAdapter = ( data: UserPreferencesType) => {
+  const formattedStage = companyStage.find(el => el.value == data.companyStage);
+  const formattedType = companyType.find(el => el.value == data.companyType);
+  const formattedIndustryType = data.industryType.map(type => industryType.find(el => el.value == type));
+  const formattedSeniorityOption = seniorityOptions.find(el => el.value == data.seniority);
+  const formattedEmploymentType = employmentType.find(el => el.value == data.employmentType);
+  const formattedLocationOption = data.location.map(type => locationOptions.find(el => el.value == type));
+  const formattedMainTech = data.mainTech.map(type => mainTech.find(el => el.value == type));
+  const formattedTechSkills = data.techSkills.map(techSkill => techSkills.find(el=> el.value == techSkill));
+
+  return {
+    ...data,
+    companyStage: formattedStage,
+    companyType: formattedType,
+    industryType: formattedIndustryType,
+    seniority: formattedSeniorityOption,
+    employmentType: formattedEmploymentType,
+    location: formattedLocationOption,
+    mainTech: formattedMainTech,
+    techSkills: formattedTechSkills,
+    isRemote: Boolean(data.isRemote),
+    maxSalary: abbreviateNumber(data.maxSalary),
+    minSalary: abbreviateNumber(data.minSalary),
   }
 
 }
