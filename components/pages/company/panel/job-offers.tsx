@@ -31,7 +31,20 @@ const fetcher = (...args: any) => fetch(...args)
 
 
 const CompanyProfilePage = () => {
-  const { data, error } = useSWR(`/api/company/posts`, fetcher);
+  const { data, error,mutate } = useSWR(`/api/company/posts`, fetcher);
+  const handleDelete = async(id:string) =>{
+    const req = await fetch(`/api/company/posts/${id}`, { method: 'DELETE' });
+  }
+  const handleDeleteOffer = async(id:string) =>{
+    if(window.confirm("Delete this job post?")) {
+      try{
+        await handleDelete(id);
+        const newData = data?.filter(jobOffer => jobOffer._id !== id);
+        await mutate(newData, false);
+      }catch(err){ console.log(err)}
+      
+    }
+  }
   return (
     <PanelTemplate>
       <HeadingWrapper>
@@ -44,7 +57,7 @@ const CompanyProfilePage = () => {
       {!data && <Loader width={60} height={60} />}
       {data && data.length < 1 ?
        <EmptyState /> : 
-        data?.map((jobOffer) => <OfferCard jobOffer={jobOffer} userType={'COMPANY'} />)}
+        data?.map((jobOffer) => <OfferCard jobOffer={jobOffer} userType={'COMPANY'} handleDeleteOffer={handleDeleteOffer}/>)}
     </PanelTemplate>
   );
 };

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Text from "components/common/Text";
 import {
   Container,
@@ -7,11 +8,15 @@ import {
   Chip,
 } from "./styles";
 import Button from "components/common/Button";
-import Link from "next/link";
 
-type Props ={jobOffer:any; userType: 'DEVELOPER' | 'COMPANY'}
 
-const OfferCard = ({jobOffer, userType}: Props) => {
+type Props ={
+  jobOffer:any;
+  userType: 'DEVELOPER' | 'COMPANY';
+  handleDeleteOffer?: (id:string) => void;
+}
+
+const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
   const {
     jobTitle,
     location,
@@ -28,6 +33,7 @@ const OfferCard = ({jobOffer, userType}: Props) => {
       industryType
     }
   } = jobOffer
+  
   return (
     <Container>
       <Border />
@@ -60,11 +66,6 @@ const OfferCard = ({jobOffer, userType}: Props) => {
         </div>
       </AdditionalInfo>
       <MainInfoWrapper style={{ justifyContent: "space-around" }}>
-        <span className="salary">
-          💰 {minSalary}-{maxSalary} GBP
-          {/* {minSalary}-{maxSalary}
-            {currency} */}
-        </span>
         {userType === 'COMPANY'?
         <>
           <Link href={`/job-offers/${_id}`}>
@@ -74,8 +75,12 @@ const OfferCard = ({jobOffer, userType}: Props) => {
           <Link href={`/company/panel/edit/${_id}`}>
             <Button variant="primary">Edit</Button>
           </Link>
+          <Button variant="destructive" onClick={handleDeleteOffer ? ()=>handleDeleteOffer(_id): ()=>{}}>Remove offer</Button>
           </> :
           <> 
+            <span className="salary">
+              💰 {minSalary}-{maxSalary} GBP
+            </span>
             <Button variant="primary">Apply</Button>
             <Link href={`/job-offers/${_id}`}>
               <Button>See offer</Button>
