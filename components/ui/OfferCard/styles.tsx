@@ -5,7 +5,7 @@ const Container = styled.div`
   cursor: pointer;
   border-radius: ${theme.radius.md};
   border: 1px solid ${theme.colors.neutral.grey.light};
-  height: 140px;
+  height: 180px;
   margin: 10px 0;
   padding: 10px;
   width: 100%;
@@ -73,7 +73,7 @@ const Container = styled.div`
 `;
 const Border = styled.div`
   width: 5px;
-  height: 140px;
+  height: 180px;
   border-radius: 10px 0 0 10px;
   background-color: ${theme.colors.brand.blue.base};
   position: absolute;
