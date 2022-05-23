@@ -39,10 +39,10 @@ const MatchMakingPage = () => {
         </HeadingWrapper>
 
         <RowPreferencesWrapper>
-          <PreferenceCard type="location" value={userData?.location[0]?.text} sub="LOCATION" numOfMoreItems={userData?.location.slice(0).length}/>
+          <PreferenceCard type="location" value={userData?.location[0]?.text} sub="LOCATION" numOfMoreItems={userData?.location.slice(1).length}/>
           <PreferenceCard type="salary" value={`${userData?.minSalary} - ${userData?.maxSalary} GBP`} sub="SALARY" />
-          <PreferenceCard type="mainTech" value={userData?.mainTech[0]?.text} sub="MAIN TECH" numOfMoreItems={userData?.mainTech.slice(0).length}/>
-          <PreferenceCard type="techSkills" value={userData?.techSkills[0]?.label} sub="SKILLS" numOfMoreItems={userData?.techSkills.slice(0).length}/>
+          <PreferenceCard type="mainTech" value={userData?.mainTech[0]?.text} sub="MAIN TECH" numOfMoreItems={userData?.mainTech.slice(1).length}/>
+          <PreferenceCard type="techSkills" value={userData?.techSkills[0]?.label} sub="SKILLS" numOfMoreItems={userData?.techSkills.slice(1).length}/>
           <PreferenceCard type="isRemote" value={userData?.isRemote ? 'YES' : 'NO'} sub="REMOTE" />
         </RowPreferencesWrapper>
       </Container>

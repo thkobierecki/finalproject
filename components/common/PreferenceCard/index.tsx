@@ -19,7 +19,7 @@ const PreferenceCard = ({ type, value, sub, numOfMoreItems }: Props) => {
           <Text variant="bodySmall" className="subheader">
             {sub}
           </Text>
-          {numOfMoreItems && numOfMoreItems > 0 && <Pill>+ {numOfMoreItems} </Pill>}
+          {numOfMoreItems && numOfMoreItems > 0 ? <Pill>+ {numOfMoreItems} </Pill> : null}
         </Row>
       </Wrapper>
     </Container>
