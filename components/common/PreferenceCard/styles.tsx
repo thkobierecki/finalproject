@@ -25,4 +25,24 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-export { Container, Wrapper };
+
+const Row = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+`
+
+const Pill = styled.div`
+display: flex;
+margin-left: 15px;
+border-radius: ${theme.radius.lg};
+background-color: ${theme.colors.secondary.aqua.light};
+color: ${theme.colors.neutral.ink.dark};
+padding: 3px 5px;
+align-items: center;
+justify-content: center;
+width: 35px;
+height: 20px;
+font-size: 12px;
+`
+export { Container, Wrapper,Pill , Row};
