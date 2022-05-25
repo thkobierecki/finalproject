@@ -49,7 +49,7 @@ const DevProfilePage = () => {
       companyName,
       companyType,
       industryType,
-
+      introduction,
     }
   } = data
 
@@ -63,7 +63,7 @@ const DevProfilePage = () => {
               </div>
               <MainInfoWrapper>
                 <Text variant="headingXXL">{companyName} 🔥 </Text>
-                {/* <span className="boldSpan">{highlight} </span> */}
+                <Text variant="bodyBold">{introduction}</Text>
                 <div>
                   <span className="locationChip">🌍 {location?.text}</span>{" "}
                   {isRemote && <span className="locationChip">🏖️ Remote</span>}

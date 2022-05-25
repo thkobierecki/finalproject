@@ -30,9 +30,25 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
     company: {
       companyName,
       companyType,
-      industryType
+      industryType,
+      _id: companyId,
     }
   } = jobOffer
+
+  const handleApply = async (offerId: string, companyId: string) => {
+    try{
+      const req = await fetch("/api/application/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({offerId, companyId}),
+      });
+      console.log(req)
+    }catch(error){
+      console.log(error)
+    };
+  }
   
   return (
     <Container>
@@ -81,7 +97,7 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
             <span className="salary">
               💰 {minSalary}-{maxSalary} GBP
             </span>
-            <Button variant="primary">Apply</Button>
+            <Button variant="primary" onClick={() => handleApply( _id, companyId)}>Apply</Button>
             <Link href={`/job-offers/${_id}`}>
               <Button>See offer</Button>
             </Link>
