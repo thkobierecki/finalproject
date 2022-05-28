@@ -21,7 +21,7 @@ const Editor = dynamic(
 //   onBlur?: () => void;
 //   onChange?: (inpuText: string) => void;
 // };
-const EditorConvertToHTML = (props: any): JSX.Element => {
+const EditorConvertToHTML = (props) => {
   const initState = props?.defaultValue
     ? ContentState.createFromBlockArray(
         convertFromHTML(props?.defaultValue).contentBlocks,
@@ -35,7 +35,7 @@ const EditorConvertToHTML = (props: any): JSX.Element => {
       : EditorState.createEmpty()
   );
 
-  const onEditorStateChange = (editorState:any) => {
+  const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
 
     return props.onChange(

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import theme from "theme";
 const Container = styled.div`
   max-width: 1280px;
   margin: 0px auto;
@@ -59,6 +60,39 @@ const HeadingWrapper = styled.div`
     width: 100px;
   }
 `;
+
+const Table=styled.table`
+  margin-top: 30px;
+  padding:10px;
+  border-radius: ${theme.radius.base};
+  border: 1px solid ${theme.colors.neutral.grey.lightest};
+  background-color: #fff;
+  border-spacing: 0;
+`;
+const Tb=styled.tbody``;
+const Tr=styled.tr`
+  &:nth-child(odd) {
+    :hover { background-color: ${theme.colors.neutral.grey.light};}
+  }
+  &:first-child {
+    :hover { background-color: #fff;}
+  }
+`;
+const Th=styled.th`
+  text-align: left;
+  padding: 10px;
+`;
+const Td=styled.td`
+  text-align: left;
+  margin:0;
+  padding: 10px;
+  border-top: 1px solid ${theme.colors.neutral.grey.light};
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction:row;
+`
 export {
   Container,
   FormWrapper,
@@ -68,4 +102,9 @@ export {
   ButtonsWrapper,
   RowPreferencesWrapper,
   HeadingWrapper,
+  Table,
+  Tb,
+  Tr,
+  Th,
+  Td
 };

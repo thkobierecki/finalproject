@@ -3,6 +3,7 @@ import { getSession } from "next-auth/react";
 import JobApplication from "lib/mongo/models/JobApplication";
 import { connectDB } from "lib/mongo/connectDB";
 import JobOffer from "lib/mongo/models/JobOffer";
+import UserProfile from "lib/mongo/models/UserProfile";
 
 connectDB();
 
@@ -18,10 +19,16 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
           offerId
         } = req.body;
 
+        const userProfile = await UserProfile.findOne({
+          //@ts-ignore
+          userId,
+        });
+
         const jobApplication = await JobApplication.create({
         company: companyId,
-        jobSeeker : userId,
-        jobOffer: offerId
+        jobSeeker : userProfile._id,
+        jobOffer: offerId,
+        status: "PENDING",
         });
         const updatedJobOffer = await JobOffer.findOneAndUpdate({_id: offerId},{ $inc: { numberOfApplications: 1 } }, {new: true});
         console.log(updatedJobOffer);

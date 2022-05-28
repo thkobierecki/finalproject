@@ -4,7 +4,7 @@ import { getSession, GetSessionParams, getCsrfToken } from "next-auth/react";
 import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import type { AppProps } from "next/app";
+
 const GlobalStyle = createGlobalStyle`
   body{
     margin:0;
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 `;
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <>
       <GlobalStyle />
@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           closeOnClick
           pauseOnHover
         />
+        
       </SessionProvider>
     </>
   );
@@ -37,7 +38,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
 export default MyApp;
 
-export async function getServerSideProps(ctx: GetSessionParams | undefined) {
+export async function getServerSideProps(ctx) {
   const session = await getSession(ctx);
   const csr = await getCsrfToken(ctx);
   return { props: { session: { ...session, csrf: csr } } };

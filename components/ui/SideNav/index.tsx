@@ -6,6 +6,7 @@ import {
   IoPersonOutline,
   IoDocumentTextOutline,
   IoCheckboxOutline,
+  IoAppsOutline,
 } from "react-icons/io5";
 import Icon from "../../common/Icon";
 import { useSession } from "next-auth/react";
@@ -27,6 +28,11 @@ const sideNavMap = {
       icon: <IoCheckboxOutline />,
       title: "MatchMaking",
     },
+    {
+      url: "/dev/panel/applications",
+      icon: <IoAppsOutline />,
+      title: "Applications",
+    },
   ],
   COMPANY: [
     {
@@ -38,6 +44,11 @@ const sideNavMap = {
       url: "/company/panel/job-offers",
       icon: <IoDocumentTextOutline />,
       title: "Job Offers",
+    },
+    {
+      url: "/company/panel/applications",
+      icon: <IoAppsOutline />,
+      title: "Applications",
     },
   ],
 };
