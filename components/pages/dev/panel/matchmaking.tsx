@@ -27,7 +27,6 @@ const fetcher = (...args: any) => fetch(...args)
 const MatchMakingPage = () => {
   const { data, error } = useSWR(`/api/job-offers`, fetcher);
   const { data: userData, error: userDataErrors } = useSWR("/api/user/profile/preferences", userDataFetcher);
-  console.log(userData)
   return (
     <PanelTemplate>
       <Container>
