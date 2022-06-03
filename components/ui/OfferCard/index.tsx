@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import Text from "components/common/Text";
 import {
   Container,
@@ -14,6 +15,12 @@ type Props ={
   jobOffer:any;
   userType: 'DEVELOPER' | 'COMPANY';
   handleDeleteOffer?: (id:string) => void;
+}
+
+const getColor =(value:number)=>{
+  //value from 0 to 1
+  var hue=((value/100)*120).toString(10);
+  return ["hsl(",hue,",100%,50%)"].join("");
 }
 
 const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
@@ -32,7 +39,8 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
       companyType,
       industryType,
       _id: companyId,
-    }
+    },
+    match
   } = jobOffer
 
   const handleApply = async (offerId: string, companyId: string) => {
@@ -75,7 +83,7 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
         </div>
 
         <Text variant="headingSmall">Tech Skills </Text>
-        <div className="chipwrapper">
+        <div className="chipwrapper" style={{display:'flex', width: 300}}>
           {techSkills?.map(
             (item:any, key:number) => key < 8 && item && <Chip key={`${item.label}-${key}`}>{item.label}</Chip>
           )}
@@ -105,6 +113,23 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
          
         }
       </MainInfoWrapper>
+      {match ?
+        <>
+          <MainInfoWrapper>
+            <Text variant="bodyBold">Match</Text>
+          
+            <div style={{width: 80, height: 80, marginTop: 10}}>
+              <CircularProgressbar
+                value={match}
+                text={`${match}%`}
+                styles={buildStyles({
+                  pathColor: getColor(match),
+                })}
+              />
+            </div>
+          </MainInfoWrapper>
+        </> : null
+      }
     </Container>
   );
 };
