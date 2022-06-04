@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
     switch (method) {
       case "GET":
         //@ts-ignore
-        const jobOffer = await JobOffer.findOne({ _id: id}).sort({ createdAt: -1 }).populate("company");
+        const jobOffer = await JobOffer.findOne({ _id: id}).populate("company");
         res.status(200).json({
           jobOffer
         });

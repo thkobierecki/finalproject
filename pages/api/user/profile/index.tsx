@@ -12,7 +12,6 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
   if (session) {
     //@ts-ignore
     const userId = session.user.id;
-    console.log(userId);
     switch (method) {
       case "GET":
         const userProfile = await UserProfile.findOne({
