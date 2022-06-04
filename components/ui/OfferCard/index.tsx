@@ -40,7 +40,8 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
       industryType,
       _id: companyId,
     },
-    match
+    match,
+    totalMatches
   } = jobOffer
 
   const handleApply = async (offerId: string, companyId: string) => {
@@ -52,7 +53,6 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
         },
         body: JSON.stringify({offerId, companyId}),
       });
-      console.log(req)
     }catch(error){
       console.log(error)
     };
@@ -130,6 +130,15 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
           </MainInfoWrapper>
         </> : null
       }
+      {totalMatches ?
+        <>
+          <MainInfoWrapper>
+            <Text variant="bodyBold">Matched with {totalMatches} candidates</Text>
+            <Link href={`/company/panel/candidates/${_id}`}>
+              <Button>See best candidates</Button>
+            </Link>
+          </MainInfoWrapper>
+        </> : null}
     </Container>
   );
 };

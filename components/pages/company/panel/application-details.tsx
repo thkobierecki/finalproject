@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 const fetcher = (...args: any) => fetch(...args).then((res) => res.json())
 
 
-const CompanyProfilePage = () => {
+const ApplicationDetailsPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, error,mutate } = useSWR(`/api/application/company/${id}`, fetcher);
@@ -102,4 +102,4 @@ const CompanyProfilePage = () => {
   );
 };
 
-export default CompanyProfilePage;
+export default ApplicationDetailsPage;
