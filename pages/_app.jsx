@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import 'react-circular-progressbar/dist/styles.css';
 
+
 const GlobalStyle = createGlobalStyle`
   body{
     margin:0;

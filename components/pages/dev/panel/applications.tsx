@@ -1,9 +1,10 @@
+import Image from 'next/image';
 import Button from "components/common/Button";
 import Text from "components/common/Text";
 import PanelTemplate from "components/templates/panel";
 import Link from "next/link";
 import useSWR from "swr";
-import { Container, HeadingWrapper, Table, Tb,Th,Tr,Td,Row } from "./styles";
+import { Container, HeadingWrapper, Table, Tb,Th,Tr,Td,Row, LogoMock } from "./styles";
 
 
 //@ts-ignore
@@ -36,6 +37,7 @@ const MatchMakingPage = () => {
         <Table >
           <Tb>
             <Tr>
+              <Th></Th>
               <Th>Job Title</Th>
               <Th>Company Name</Th>
               <Th>Status</Th>
@@ -43,6 +45,11 @@ const MatchMakingPage = () => {
             </Tr>
             {data?.map((item:any) => 
             <Tr key={`table-row-${item._id}`}>
+              <Td>{item.company.logo?
+                <Image width={40} height={40} src={item.company.logo} />
+                  :
+                <LogoMock>{item.company.companyName[0]}</LogoMock>}
+              </Td>
               <Td>{item.jobOffer.jobTitle}</Td>
               <Td>{item.company.companyName}</Td>
               <Td>{item.status}</Td>

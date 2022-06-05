@@ -18,7 +18,7 @@ export default ({ preview, setPreview }: Props) => {
         alert("Please upload an image first!");
     }
 
-    const storageRef = ref(storage, `/files/${file.name}`);
+    const storageRef = ref(storage, `/files/logos/${file.name}`);
 
     // progress can be paused and resumed. It also exposes progress updates.
     // Receives the storage reference and the file to upload.
@@ -59,22 +59,21 @@ export default ({ preview, setPreview }: Props) => {
     isDragReject,
   } = useDropzone({
     onDrop,
-    accept: ".pdf",
+    accept: ['.jpeg', '.png'],
     maxSize: 1024000,
   });
-
+console.log(preview)
   return (
     <Wrapper {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
       {preview ? (
         <>
-          <Image width={100} height={100} src={"/images/cv.png"} />
-          <Text variant="subheadingSmall">You have uploaded a CV. Press here to upload new one.</Text>
+          <Image width={100} height={100} src={preview? preview : "/images/cv.png"} />
         </>
       ) : (
         <>
           <Image width={100} height={100} src={"/images/uploadCV.png"} />
           <Text variant="subheadingSmall">
-            Upload your CV. We accept pdf only.
+            Upload your logo.
           </Text>
         </>
       )}

@@ -15,6 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Container, FormWrapper, Column } from "./styles";
 import { useEffect, useMemo, useState } from "react";
+import UploadLogo from "components/ui/UploadLogo";
 
 //@ts-ignore
 const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
@@ -22,6 +23,7 @@ const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
 const CompanyProfilePage = () => {
   const { data } = useSWR(`/api/company/profile`, fetcher);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [logo, setLogo] = useState<string>("");
   const {
     register,
     reset,
@@ -41,7 +43,7 @@ const CompanyProfilePage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({...data, logo}),
       });
       toast.success("🦄 Your company profile has been updated");
       setIsLoading(false);
@@ -54,6 +56,7 @@ const CompanyProfilePage = () => {
   useEffect(() => {
     if(data?.error) return;
     reset(data);
+    if(data?.logo) setLogo(data?.logo)
   }, [data]);
   return (
     <PanelTemplate>
@@ -149,7 +152,10 @@ const CompanyProfilePage = () => {
               error={errors?.socials?.twitter?.message}
             />
           </Card>
-          </Column>
+          <Card title="UPLOAD YOUR LOGO">
+            <UploadLogo setPreview={setLogo} preview={logo}/>
+          </Card>
+        </Column>
       </FormWrapper>
       <Button
         variant="primary"

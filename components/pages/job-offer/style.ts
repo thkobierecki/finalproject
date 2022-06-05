@@ -252,3 +252,16 @@ export const ApplyButton = styled.a<{ width?: string }>`
   color: #fff;
   background-color: ${theme.colors.brand.blue.dark};
 `;
+
+export const LogoMock = styled.div`
+  width: 100px;
+  height: 100px;
+  padding: 20px;
+  font-size: 40px;
+  line-height: 40px;
+  background-color: ${theme.colors.neutral.grey.light};
+  border-radius: ${theme.radius.base};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  `;

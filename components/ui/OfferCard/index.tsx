@@ -9,12 +9,14 @@ import {
   Chip,
 } from "./styles";
 import Button from "components/common/Button";
+import Logo from "./Logo";
 
 
 type Props ={
   jobOffer:any;
   userType: 'DEVELOPER' | 'COMPANY';
   handleDeleteOffer?: (id:string) => void;
+  reset?: () => void;
 }
 
 const getColor =(value:number)=>{
@@ -23,7 +25,7 @@ const getColor =(value:number)=>{
   return ["hsl(",hue,",100%,50%)"].join("");
 }
 
-const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
+const OfferCard = ({jobOffer, userType, handleDeleteOffer, reset}: Props) => {
   const {
     jobTitle,
     location,
@@ -39,9 +41,11 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
       companyType,
       industryType,
       _id: companyId,
+      logo
     },
     match,
-    totalMatches
+    totalMatches,
+    hasApplication
   } = jobOffer
 
   const handleApply = async (offerId: string, companyId: string) => {
@@ -53,6 +57,7 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
         },
         body: JSON.stringify({offerId, companyId}),
       });
+      {reset ? reset() : () => {}};
     }catch(error){
       console.log(error)
     };
@@ -61,6 +66,11 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
   return (
     <Container>
       <Border />
+      {logo && (
+          <div className="logoWrapper">
+            <Logo logo={logo} />
+          </div>
+        )}
       <MainInfoWrapper style={{ justifyContent: "space-around" }}>
         <Text variant="headingMedium">{jobTitle}</Text>
         <div className="chipwrapper">
@@ -105,7 +115,10 @@ const OfferCard = ({jobOffer, userType, handleDeleteOffer}: Props) => {
             <span className="salary">
               💰 {minSalary}-{maxSalary} GBP
             </span>
-            <Button variant="primary" onClick={() => handleApply( _id, companyId)}>Apply</Button>
+            {hasApplication ?
+              <Button disabled>Already applied</Button>
+              :
+              <Button variant="primary" onClick={() => handleApply( _id, companyId)}>Apply</Button>}
             <Link href={`/job-offers/${_id}`}>
               <Button>See offer</Button>
             </Link>

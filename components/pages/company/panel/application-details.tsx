@@ -44,6 +44,7 @@ const ApplicationDetailsPage = () => {
                 <Th>Name</Th>
                 <Th>Email</Th>
                 <Th>Socials</Th>
+                <Th>CV</Th>
                 <Th>Status</Th>
                 <Th>Actions</Th>
               </Tr>
@@ -66,6 +67,7 @@ const ApplicationDetailsPage = () => {
                     </Text>
                   }
                   </Td>
+                <Td>{item.jobSeeker.cvLink ? <Text variant="link"><a href={item.jobSeeker.cvLink} target="_blank">CV</a></Text> : <Text>-</Text>}</Td>
                 <Td>{item.status}</Td>
                 <Td>
                   <Row>

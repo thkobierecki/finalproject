@@ -36,6 +36,7 @@ export const companyProfileAdapter = (data: any) => {
     industryType: parseFloat(data.industryType),
     introduction: data.introduction,
     socials: data.socials,
+    logo: data.logo
   }
 
   return formattedData;

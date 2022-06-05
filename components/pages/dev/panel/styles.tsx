@@ -89,6 +89,19 @@ const Td=styled.td`
   border-top: 1px solid ${theme.colors.neutral.grey.light};
 `;
 
+export const LogoMock = styled.div`
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  font-size: 20px;
+  line-height: 20px;
+  background-color: ${theme.colors.neutral.grey.light};
+  border-radius: ${theme.radius.base};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 export const Row = styled.div`
   display: flex;
   flex-direction:row;

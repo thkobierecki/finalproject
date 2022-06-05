@@ -35,6 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
           industryType,
           introduction,
           socials,
+          logo
         } = req.body;
 
         const formattedData = companyProfileAdapter({
@@ -45,6 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
           industryType,
           introduction,
           socials,
+          logo
         });
         //@ts-ignore
         const hasProfile = await Company.findOne({

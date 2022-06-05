@@ -25,7 +25,7 @@ const fetcher = (...args: any) => fetch(...args)
   .then((jobOffers) => jobOffers?.map(jobOffer => jobOfferAdapter(jobOffer)));
 
 const MatchMakingPage = () => {
-  const { data, error } = useSWR(`/api/job-offers`, fetcher);
+  const { data, error, mutate } = useSWR(`/api/job-offers`, fetcher);
   const { data: userData, error: userDataErrors } = useSWR("/api/user/profile/preferences", userDataFetcher);
   return (
     <PanelTemplate>
@@ -52,7 +52,7 @@ const MatchMakingPage = () => {
         {error && <Text variant="headingLarge">There was an error loading your matches. Try to reload the page!</Text>}
         {!data && <Loader height={60} width={60}/>}
         {data && data?.length < 1 ? <Text variant="headingLarge">We haven't found any matches for you yet. Try to update tour preferences.</Text> :
-        data?.map(jobOffer => <OfferCard jobOffer={jobOffer} key={`match-making-offer-${jobOffer._id}`} userType={'DEVELOPER'}/>)}
+        data?.map(jobOffer => <OfferCard jobOffer={jobOffer} key={`match-making-offer-${jobOffer._id}`} userType={'DEVELOPER'} reset={mutate}/>)}
       </Container>
     </PanelTemplate>
   );

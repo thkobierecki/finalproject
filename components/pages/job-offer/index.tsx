@@ -1,18 +1,31 @@
-import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
 import Parser from "html-react-parser";
 import useSWR from "swr";
 import Button from "components/common/Button";
 import Text from "components/common/Text";
 import PanelTemplate from "components/templates/panel";
-
-import { ApplyButton, ApplyWrapper, CompanyHiglights, Container, JobDescription, MainInfoWrapper, OfferCard, OfferContent, OfferHeading, OfferHighlights, OfferWrapper, Row, SContainer } from "./style";
+import { 
+  ApplyButton,
+  ApplyWrapper,
+  CompanyHiglights,
+  Container,
+  JobDescription,
+  LogoMock,
+  MainInfoWrapper,
+  OfferCard,
+  OfferContent,
+  OfferHeading,
+  OfferHighlights,
+  OfferWrapper,
+  Row,
+  SContainer
+} from "./style";
 
 
 import { useRouter } from "next/router";
 import { jobOfferAdapter } from "utils/jobOfferAdapter";
 import { JobOffer } from "types";
 import { useSession } from "next-auth/react";
+import Logo from "components/ui/OfferCard/Logo";
 type JobOffersData = {
   jobOffer: JobOffer;
 }
@@ -31,6 +44,20 @@ const DevProfilePage = () => {
   const { id } = router.query;
   const { data , error } = useSWR(`/api/job-offers/${id}`, fetcher);
 
+  const handleApply = async (offerId: string, companyId: string) => {
+    try{
+      const req = await fetch("/api/application/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({offerId, companyId}),
+      });
+    }catch(error){
+      console.log(error)
+    };
+  }
+
   if(error) return <p>error</p>
   if(!data) return <p>Loading</p>
   const {
@@ -45,11 +72,14 @@ const DevProfilePage = () => {
     seniority,
     description,
     isRemote,
+    hasApplication,
     company: {
       companyName,
       companyType,
       industryType,
       introduction,
+      logo,
+      _id:companyId
     }
   } = data
 
@@ -59,7 +89,9 @@ const DevProfilePage = () => {
           <OfferWrapper>
             <CompanyHiglights>
               <div className="logoWrapper">
-                {/* <Logo big logo={company.companyLogo} /> */}
+                {logo?
+                  <Logo big logo={logo} /> : <LogoMock>{companyName[0]}</LogoMock>
+                  }
               </div>
               <MainInfoWrapper>
                 <Text variant="headingXXL">{companyName} 🔥 </Text>
@@ -78,9 +110,12 @@ const DevProfilePage = () => {
                 </Text>
               </SContainer>
               {userType === "DEVELOPER" &&
-                <Button variant="primary" style={{width: 250, fontSize: 24}}>
+                (hasApplication ? 
+                <Button variant="primary" disabled>Already applied</Button>
+                :
+                <Button variant="primary" style={{width: 250, fontSize: 24}} onClick={() => handleApply(_id, companyId)}>
                   Apply Now
-                </Button>}
+                </Button>)}
             </OfferHeading>
             <OfferContent>
               <JobDescription>{Parser(description)}</JobDescription>
@@ -122,9 +157,12 @@ const DevProfilePage = () => {
             </OfferContent>
             <ApplyWrapper>
             {userType === "DEVELOPER" &&
-                <Button variant="primary" style={{width: 250, fontSize: 24}}>
+             (hasApplication ? 
+             <Button variant="primary" disabled>Already applied</Button>
+             :
+              <Button variant="primary" style={{width: 250, fontSize: 24}} onClick={() => handleApply(_id, companyId)}>
                 Apply Now
-              </Button>
+              </Button>)
             }
             </ApplyWrapper>
           </OfferWrapper>

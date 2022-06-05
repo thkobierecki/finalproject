@@ -4,7 +4,7 @@ import Input from "components/common/Input";
 import Text from "components/common/Text";
 import TextArea from "components/common/TextArea";
 import PanelTemplate from "components/templates/panel";
-// import UploadCV from "components/ui/UploadCV";
+import UploadCV from "components/ui/UploadCV";
 import { useEffect, useMemo, useState } from "react";
 import { Container, FormWrapper, Column } from "./styles";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,7 @@ const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
 const DevProfilePage = () => {
   const { data } = useSWR(`/api/user/profile`, fetcher);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [file, setFile] = useState<string>("");
   const {
     register,
     reset,
@@ -27,6 +28,10 @@ const DevProfilePage = () => {
     }, [data]),
   });
 
+  const handleSetFile = (file:string) => {
+    setFile(file);
+  }
+
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     try {
@@ -35,7 +40,7 @@ const DevProfilePage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({...data, cvLink: file}),
       });
       toast.success("🦄 Your profile has been updated");
       setIsLoading(false);
@@ -47,6 +52,7 @@ const DevProfilePage = () => {
 
   useEffect(() => {
     reset(data);
+    if(data?.cvLink) setFile(data.cvLink)
   }, [data]);
 
   return (
@@ -126,14 +132,14 @@ const DevProfilePage = () => {
               error={errors?.github?.message}
             />
           </Card>
-          {/* <Card title="UPLOAD YOUR CV">
+          <Card title="UPLOAD YOUR CV">
             <UploadCV
               setPreview={(prev: string) =>
-                handleChangeSingleValue("cvLink", prev)
+                handleSetFile(prev)
               }
-              preview={state.cvLink}
+              preview={file}
             />
-          </Card> */}
+          </Card>
         </Column>
       </FormWrapper>
       <Button

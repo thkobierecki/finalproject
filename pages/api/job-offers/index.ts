@@ -4,6 +4,7 @@ import JobOffer from "lib/mongo/models/JobOffer";
 import UserPreferences from "lib/mongo/models/UserPreferences";
 import { connectDB } from "lib/mongo/connectDB";
 import { matchJobOfferToUser } from "utils/matching/userMatch";
+import JobApplication from "lib/mongo/models/JobApplication";
 
 
 connectDB();
@@ -21,15 +22,16 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
     });
     const jobOffers = await JobOffer.find().sort({ createdAt: -1 }).populate("company");
 
-    const matchUserJobs = jobOffers.map(jobOffer => {
+    const matchUserJobs = await Promise.all(jobOffers.map(async(jobOffer) => {
       const matchingPercentage = matchJobOfferToUser(userPreferences, jobOffer);
-
+      const applications = await JobApplication.find({jobOffer: jobOffer._id}).populate("jobSeeker");
+      const hasAppliation =applications.find(app=> app.jobSeeker?.userId === userId);
       return {
         ...jobOffer._doc,
-        match: Number.parseFloat(matchingPercentage)
-
+        match: Number.parseFloat(matchingPercentage),
+        hasApplication : hasAppliation ? true : false
       }
-    })
+    }))
     const filteredJobOffers =matchUserJobs.filter(match => match.match > 10);
 
     res.status(200).json({

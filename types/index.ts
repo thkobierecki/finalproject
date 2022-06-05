@@ -12,7 +12,8 @@ export type Company = {
     website: string;
   }
   userId: string;
-  _id: "626ed80bba7a73ccd02867fb"
+  logo?: string;
+  _id: string;
 };
 
 export type JobOffer = {
@@ -31,6 +32,7 @@ export type JobOffer = {
   techSkills: Array<number>;
   applicantsID:Array<number>;
   company: Company;
+  hasApplication?:boolean;
 }
 
 export type UserPreferencesType ={
