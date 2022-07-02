@@ -12,11 +12,11 @@ const PreferenceCard = ({ type, value, sub, numOfMoreItems }: Props) => {
     <Container>
       <CircleIcon type={type} />
       <Wrapper>
-        <Text variant="headingMedium" className="header">
+        <Text variant="headingMedium" className="header" data-testid="preference-card-value">
           {value}
         </Text>
         <Row>
-          <Text variant="bodySmall" className="subheader">
+          <Text variant="bodySmall" className="subheader" data-testid="preference-card-subheader">
             {sub}
           </Text>
           {numOfMoreItems && numOfMoreItems > 0 ? <Pill>+ {numOfMoreItems} </Pill> : null}
