@@ -225,6 +225,7 @@ const Preferences = () => {
               isMulti
               options={techSkills}
               onChange={(value) => handleChangeTechSkills(value)}
+              className="tech-stack-select"
             />
           </InputsWrapper>
         </Card>

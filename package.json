@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "e2e": "start-server-and-test start http://localhost:3000 cypress",
+    "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless"
   },
   "dependencies": {
     "@lexical/react": "^0.2.5",
@@ -51,6 +55,7 @@
     "@types/react-draft-wysiwyg": "^1.13.4",
     "@types/styled-components": "^5.1.23",
     "babel-plugin-styled-components": "^2.0.2",
+    "cypress": "^10.3.0",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
     "jest": "^27.5.1",

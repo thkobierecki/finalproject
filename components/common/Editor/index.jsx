@@ -22,13 +22,14 @@ const Editor = dynamic(
 //   onChange?: (inpuText: string) => void;
 // };
 const EditorConvertToHTML = (props) => {
-  const initState = props?.defaultValue
+  const initState = 
+  props?.defaultValue
     ? ContentState.createFromBlockArray(
         convertFromHTML(props?.defaultValue).contentBlocks,
         convertFromHTML(props?.defaultValue).entityMap
       )
     : EditorState.createEmpty();
-  const [editorState, setEditorState] = useState<EditorState>(
+  const [editorState, setEditorState] = useState(
     props?.defaultValue
     //@ts-ignore
       ? EditorState.createWithContent(initState)

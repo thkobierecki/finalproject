@@ -16,6 +16,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/mongo/mongodb.js", "lib/mongo/models/User.js", "components/common/IconButton/icons.js", "components/common/Editor/index.jsx", "pages/_app.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/mongo/mongodb.js", "lib/mongo/models/User.js", "components/common/IconButton/icons.js", "components/common/Editor/index.jsx", "pages/_app.jsx", "cypress/support/commands.js"],
   "exclude": ["node_modules"]
 }
