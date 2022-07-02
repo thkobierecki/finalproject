@@ -45,7 +45,7 @@ const CompanyProfilePage = () => {
               
             </Tb>
           </Table> : 
-          <Text variant="headingLarge">Looks like you haven't made any application yet. <Link href="matchmaking"><Text variant="link">Apply and get hired within days!</Text></Link></Text>}
+          <Text variant="headingLarge">Looks like you haven't made any application yet.</Text>}
         </Container>
     </PanelTemplate>
   );

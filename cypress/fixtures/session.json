@@ -1,0 +1,9 @@
+{
+  "user": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjZlYzljOTExNDc5NzQ1NzA5M2E5MTYiLCJpYXQiOjE2NTY3ODE1MTcsImV4cCI6MTY1NzM4NjMxN30.W8dr8lVYREsTMxQsdaAxb21koSCEHHzLSXTw9MGMLyA",
+    "email": "testCompany@gmail.com",
+    "id": "626ec9c9114797457093a916",
+    "accountType": "COMPANY"
+  },
+  "expires": "3000-01-01T00:00:00.000Z"
+}
